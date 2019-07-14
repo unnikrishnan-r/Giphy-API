@@ -113,11 +113,12 @@ $(document).ready(function() {
     }
     currentCountOfGifs += giphyResponse.pagination.count;
     $(".gifImage").on("click", function() {
-      console.log("Clicked an Image");
       if ($(this).attr("data-state") === "still") {
+        console.log("Going to animate an image");
         $(this).attr("data-state", "animate");
         $(this).attr("src", $(this).attr("animated-image"));
       } else {
+        console.log("Going to make the image still");
         $(this).attr("data-state", "still");
         $(this).attr("src", $(this).attr("still-image"));
       }
@@ -140,6 +141,7 @@ $(document).ready(function() {
 
   // This handles events where one button is clicked
   $("#add-more-gifs").on("click", function(event) {
+    console.log("Going to add more GIfs")
     event.preventDefault();
     queryUrl += "&offset=" + currentCountOfGifs;
     console.log(queryUrl);
