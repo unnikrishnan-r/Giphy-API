@@ -143,6 +143,7 @@ $(document).ready(function() {
     event.preventDefault();
     queryUrl += "&offset=" + currentCountOfGifs;
     console.log(queryUrl);
+    $(".gifImage").off("click");
     makeGiphyApiCall(queryUrl).then(function(giphyResponse) {
       displayGifs(giphyResponse);
     });
