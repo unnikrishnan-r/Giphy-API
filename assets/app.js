@@ -1,7 +1,8 @@
 $(document).ready(function() {
   const apikey = "apikey=vT2XZqQdvN88TSL4h9wqV8pXsXJWj10d";
   const queryUrlBase = "https://api.giphy.com/v1/gifs/search?q=";
-  const countOfGifs = 12;
+  const countOfGifs = 3;
+  var currentCountOfGifs = 0;
   let topicArray = [
     "suits",
     "louis litt",
@@ -39,9 +40,10 @@ $(document).ready(function() {
       queryUrlBase + searchTerm + "&" + apikey + "&limit=" + countOfGifs;
     console.log(queryUrl);
     makeGiphyApiCall(queryUrl).then(function(giphyResponse) {
-      //   console.log(giphyResponse);
-      //   console.log("Displayed Response");
-      displayGifs(giphyResponse);
+    //   console.log(giphyResponse);
+    //   console.log("Displayed Response");
+    $(".gifArea").empty();
+    displayGifs(giphyResponse);
     });
   }
 
@@ -57,7 +59,6 @@ $(document).ready(function() {
 
   function displayGifs(giphyResponse) {
     console.log("Beginnig to display Gifs");
-    $(".gifArea").empty();
 
     for (var i = 0; i < giphyResponse.pagination.count; i++) {
       var animatedUrl = giphyResponse.data[i].images.downsized.url;
@@ -110,6 +111,7 @@ $(document).ready(function() {
         position: "relative"
       });
     }
+    currentCountOfGifs += giphyResponse.pagination.count;
     $(".gifImage").on("click", function() {
       console.log("Clicked an Image");
       if ($(this).attr("data-state") === "still") {
@@ -133,6 +135,17 @@ $(document).ready(function() {
       topicArray.push($("#topic-input").val());
     }
     loadButtons(topicArray);
+  });
+
+
+  // This handles events where one button is clicked
+  $("#add-more-gifs").on("click", function(event) {
+    event.preventDefault();
+    queryUrl += "&offset=" + currentCountOfGifs;
+    console.log(queryUrl);
+    makeGiphyApiCall(queryUrl).then(function(giphyResponse) {
+      displayGifs(giphyResponse);
+    });
   });
 
   loadButtons(topicArray);
