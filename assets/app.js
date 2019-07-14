@@ -59,8 +59,10 @@ $(document).ready(function() {
     $(".gifArea").empty();
 
     for (var i = 0; i < giphyResponse.pagination.count; i++) {
+      var animatedUrl = giphyResponse.data[i].url;
       var staticUrl = giphyResponse.data[i].images.original_still.url;
       var gifRating = giphyResponse.data[i].rating;
+      var gifTitle = giphyResponse.data[i].title;
       //   console.log("Round of : " + i)
       //   console.log(giphyResponse.data[i])
       //   if(giphyResponse.user.data[i].hasOwnProperty("user")){
@@ -79,8 +81,11 @@ $(document).ready(function() {
           .append(
             $("<img>", {
               src: staticUrl,
-              "image-state": "static",
-              class: " row gifImage"
+              alt: gifTitle,
+              "data-state": "still",
+              class: " row gifImage",
+              "still-image" : staticUrl,
+              "animated-image" : animatedUrl
             })
           )
           .append(
@@ -106,7 +111,19 @@ $(document).ready(function() {
     }
     $(".gifImage").on("click", function() {
       console.log("Clicked an Image");
-      //   handleClickOnImage();
+      if ($(this).attr('data-state') === "still") {
+        console.log("Changing to Animate")
+        $(this).attr('data-state', 'animate');
+        // console.log($(this).attr('animated-image'));
+        $(this).attr('src', $(this).attr('animated-image'));
+
+      } else{
+        console.log("Changing to Still")
+
+        $(this).attr('data-state', 'still');
+        $(this).attr('src', $(this).attr('still-image'));
+      }
+
     });
   }
 
