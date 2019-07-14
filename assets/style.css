@@ -1,0 +1,55 @@
+
+  .animalButton {
+    width: 100px !important;
+    height: 50px !important;
+}
+
+.formArea{
+    padding: 15px;
+}
+
+
+.animalButton {
+    font-size: 1vw;
+}
+
+.gifTitle, .gifRatingStyle, .gifUserId {
+    font-size: 1.5vw;
+    text-align: center;
+}
+
+@media only screen and (max-width: 600px) {
+    .gifTitle, .gifRatingStyle, .gifUserId {
+        font-size: 2vw;
+    }
+}
+
+
+@media only screen and (max-width: 600px) {
+    .btn {
+        width: 50px !important;
+    }
+    }
+
+
+@media only screen and (max-width: 600px) {
+    .animalButton {
+        font-size: 2vw;
+    }
+    }
+
+@media only screen and (max-width: 600px) {
+    .gifImage {
+        max-width: 100px;
+        max-height: 75px;
+        position: relative;
+    }
+    ;
+}
+
+@media only screen and (max-width: 600px) {
+    .gifImageBlock {
+        border: 1px dotted blue;
+        position: relative;
+    }
+}
