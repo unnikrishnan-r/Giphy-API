@@ -40,10 +40,10 @@ $(document).ready(function() {
       queryUrlBase + searchTerm + "&" + apikey + "&limit=" + countOfGifs;
     console.log(queryUrl);
     makeGiphyApiCall(queryUrl).then(function(giphyResponse) {
-    //   console.log(giphyResponse);
-    //   console.log("Displayed Response");
-    $(".gifArea").empty();
-    displayGifs(giphyResponse);
+      //   console.log(giphyResponse);
+      //   console.log("Displayed Response");
+      $(".gifArea").empty();
+      displayGifs(giphyResponse);
     });
   }
 
@@ -65,15 +65,13 @@ $(document).ready(function() {
       var staticUrl = giphyResponse.data[i].images.original_still.url;
       var gifRating = giphyResponse.data[i].rating;
       var gifTitle = giphyResponse.data[i].title;
-      //   console.log("Round of : " + i)
-      //   console.log(giphyResponse.data[i])
-      //   if(giphyResponse.user.data[i].hasOwnProperty("user")){
-      //       var userIdOfGif = giphyResponse.user.data[i].user.display_name
-      //   }else{
-      //       var userIdOfGif = "Unknown"
-      //   };
-      //   console.log(userIdOfGif);
-      //   console.log(giphyResponse.data[i].user.hasOwnProperty("disiplay_name"))
+      if (giphyResponse.data[i].hasOwnProperty("user")) {
+        var userIdOfGif = giphyResponse.data[i].user.display_name;
+        var userIDUrl = giphyResponse.data[i].user.profile_url;
+      } else {
+        var userIdOfGif = "Unknown";
+        var userIDUrl = "#";
+      }
 
       $(".gifArea").append(
         $("<div>", {
@@ -96,8 +94,9 @@ $(document).ready(function() {
             })
           )
           .append(
-            $("<div>", {
-              text: "User Id : " + "xxx".toUpperCase(),
+            $("<a>", {
+              href: userIDUrl,
+              text: "User ID : " + userIdOfGif.toUpperCase(),
               class: " row gifUserId justify-content-md-center"
             })
           )
@@ -138,10 +137,9 @@ $(document).ready(function() {
     loadButtons(topicArray);
   });
 
-
   // This handles events where one button is clicked
   $("#add-more-gifs").on("click", function(event) {
-    console.log("Going to add more GIfs")
+    console.log("Going to add more GIfs");
     event.preventDefault();
     queryUrl += "&offset=" + currentCountOfGifs;
     console.log(queryUrl);
