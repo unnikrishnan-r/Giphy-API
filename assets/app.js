@@ -122,13 +122,18 @@ $(document).ready(function() {
     });
   }
 
-  // This function handles events where one button is clicked
+  // This handles events where one button is clicked
   $("#add-topic").on("click", function(event) {
     event.preventDefault();
-    topicArray.push($("#topic-input").val())
+    if (
+      $("#topic-input")
+        .val()
+        .trim().length > 0
+    ) {
+      topicArray.push($("#topic-input").val());
+    }
     loadButtons(topicArray);
   });
-
 
   loadButtons(topicArray);
 });
