@@ -109,6 +109,7 @@ $(document).ready(function() {
           .append(
             $("<a>", {
               href: userIDUrl,
+              target : '_blank',
               text: "User ID : " + userIdOfGif.toUpperCase(),
               class: " row gifUserId justify-content-md-center"
             })
