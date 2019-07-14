@@ -1,8 +1,11 @@
 $(document).ready(function() {
+  //Global Variables are declated here
   const apikey = "apikey=vT2XZqQdvN88TSL4h9wqV8pXsXJWj10d";
   const queryUrlBase = "https://api.giphy.com/v1/gifs/search?q=";
   const countOfGifs = 3;
   var currentCountOfGifs = 0;
+
+  //This array will hold the initial subjects that will be displayed on the screen
   let topicArray = [
     "suits",
     "louis litt",
@@ -16,7 +19,9 @@ $(document).ready(function() {
     "Jesse Pinkman",
     "leonardo dicaprio"
   ];
-  /*Load Initial Buttons */
+
+  /*Load Initial Buttons  using the topicArray. 
+  Defines click event on the button that will invoke getGifs() by passing the search term*/
   function loadButtons(arrayOfTopics) {
     $(".buttonArea").empty();
 
@@ -34,6 +39,8 @@ $(document).ready(function() {
     });
   }
 
+  //Accepts a search term and creates a queryUrl. It invokes the function for API Call.
+  //Using the response, it then invokes a function call to display the GIFs on the page
   function getGifs(searchTerm) {
     console.log("Looking for GIFs for : " + searchTerm);
     queryUrl =
@@ -47,6 +54,7 @@ $(document).ready(function() {
     });
   }
 
+  //Makes the API Call
   function makeGiphyApiCall(queryUrl) {
     return fetch(queryUrl)
       .then(function(response) {
@@ -57,14 +65,18 @@ $(document).ready(function() {
       });
   }
 
+  //Uses the response from GIPHY API and displays in back on the screen
   function displayGifs(giphyResponse) {
     console.log("Beginnig to display Gifs");
 
+    //Shows GIF, Rating, User ID of each GIF
     for (var i = 0; i < giphyResponse.pagination.count; i++) {
       var animatedUrl = giphyResponse.data[i].images.downsized.url;
       var staticUrl = giphyResponse.data[i].images.original_still.url;
       var gifRating = giphyResponse.data[i].rating;
       var gifTitle = giphyResponse.data[i].title;
+      
+      //It is possible that the API response doesnt have a "user" element
       if (giphyResponse.data[i].hasOwnProperty("user")) {
         var userIdOfGif = giphyResponse.data[i].user.display_name;
         var userIDUrl = giphyResponse.data[i].user.profile_url;
@@ -73,6 +85,7 @@ $(document).ready(function() {
         var userIDUrl = "#";
       }
 
+      //Dynamically creates DOM elements and appends to pre-defined DIV
       $(".gifArea").append(
         $("<div>", {
           class: "col-4 col-md-4 gifImageBlock justify-content-md-center"
@@ -102,6 +115,7 @@ $(document).ready(function() {
           )
       );
 
+      //Some basic stylining
       $(".gifImage").css({
         padding: "10px",
         margin: "10px",
@@ -110,6 +124,7 @@ $(document).ready(function() {
         position: "relative"
       });
     }
+    //Keeps the current count of GIFs. This is needed while adding more GIFs
     currentCountOfGifs += giphyResponse.pagination.count;
     $(".gifImage").on("click", function() {
       if ($(this).attr("data-state") === "still") {
@@ -124,7 +139,7 @@ $(document).ready(function() {
     });
   }
 
-  // This handles events where one button is clicked
+  //Adding Topics accepting input from the form.
   $("#add-topic").on("click", function(event) {
     event.preventDefault();
     if (
@@ -137,7 +152,7 @@ $(document).ready(function() {
     loadButtons(topicArray);
   });
 
-  // This handles events where one button is clicked
+  //Adding more GIFs
   $("#add-more-gifs").on("click", function(event) {
     console.log("Going to add more GIfs");
     event.preventDefault();
